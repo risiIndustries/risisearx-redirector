@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Redirect</title>
+<script>
+  // Function to extract the query parameter from the URL
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  // Redirect to DuckDuckGo homepage if there's no query
+  document.addEventListener("DOMContentLoaded", function() {
+    var query = getParameterByName("q");
+    if (query === null || query.trim() === "") {
+      window.location.href = "https://duckduckgo.com/";
+    } else {
+      window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+    }
+  });
+</script>
+</head>
+<body>
+  <p>If you are not redirected, <a href="https://duckduckgo.com/">click here</a>.</p>
+</body>
+</html>
